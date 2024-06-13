@@ -1,0 +1,31 @@
+stages:
+  - build_dev
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+build_dev:
+  stage: build_dev
+  only:
+    - development
+  except:
+    - tags
+  script:
+    - 'docker login peoply.jfrog.io -upeoplyuser -pfserWe23Rz'
+    - 'curl -upeoplyuser:fserWe23Rz -X DELETE https://peoply.jfrog.io/artifactory/default-docker-local/vue-frontend-dev/1.0.0'
+    - 'curl -upeoplyuser:fserWe23Rz -X DELETE https://peoply.jfrog.io/artifactory/default-docker-local/vue-frontend/1.0.0'
+    - 'docker build . -t vue-frontend-dev:1.0.0 -f ./config/dev/Dockerfile'
+    - 'docker build . -t vue-frontend:1.0.0 -f ./config/prod/Dockerfile'
+    - 'docker image tag vue-frontend-dev:1.0.0 peoply.jfrog.io/default-docker-local/vue-frontend-dev:1.0.0'
+    - 'docker image tag vue-frontend:1.0.0 peoply.jfrog.io/default-docker-local/vue-frontend:1.0.0'
+    - 'docker push peoply.jfrog.io/default-docker-local/vue-frontend-dev:1.0.0'
+    - 'docker push peoply.jfrog.io/default-docker-local/vue-frontend:1.0.0'
+    - 'cd /home/dev'
+    - 'docker-compose down'
+    - 'docker images -q --filter reference=peoply.jfrog.io/default-docker-virtual/vue-frontend* | xargs docker rmi -f || true'
+    - 'docker-compose up -d --build'
