@@ -34,15 +34,6 @@ app.mount('#app')
 
 //todo перенести в dotenv переменные
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCxZMTS0SxkJy_3HWzDMnKVFhG6YRllBRQ',
-  authDomain: 'chatev-test.firebaseapp.com',
-  projectId: 'chatev-test',
-  storageBucket: 'chatev-test.appspot.com',
-  messagingSenderId: '31422350667',
-  appId: '1:31422350667:web:1189607dcb9716bf54d4ce',
-  measurementId: 'G-R94PGD1VZF',
-}
 
 const firebaseApp = initializeApp(firebaseConfig)
 app.use(firebaseApp)
