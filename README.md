@@ -1,1 +1,1 @@
-<img src="https://prnt.sc/boxGqhkzO5Ir" alt="">
+![[макет](https://prnt.sc/boxGqhkzO5Ir)][1]
